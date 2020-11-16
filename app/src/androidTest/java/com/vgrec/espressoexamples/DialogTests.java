@@ -1,8 +1,12 @@
 package com.vgrec.espressoexamples;
 
-import android.test.ActivityInstrumentationTestCase2;
-
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import com.vgrec.espressoexamples.activities.DialogExampleActivity;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -14,18 +18,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * @author vgrec, created on 3/24/15.
  */
-public class DialogTests extends ActivityInstrumentationTestCase2<DialogExampleActivity> {
+@RunWith(AndroidJUnit4.class)
+public class DialogTests {
 
-    public DialogTests() {
-        super(DialogExampleActivity.class);
-    }
+    @Rule
+    public ActivityTestRule<DialogExampleActivity> mActivityRule =
+            new ActivityTestRule<>(DialogExampleActivity.class,
+                    true, true);
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        getActivity();
-    }
-
+    @Test
     public void testCheckDialogDisplayed() {
         // Click on the button that shows the dialog
         onView(withId(R.id.confirm_dialog_button)).perform(click());
@@ -34,6 +35,7 @@ public class DialogTests extends ActivityInstrumentationTestCase2<DialogExampleA
         onView(withText(R.string.dialog_title)).check(matches(isDisplayed()));
     }
 
+    @Test
     public void testClickOkButton() {
         onView(withId(R.id.confirm_dialog_button)).perform(click());
 
@@ -43,6 +45,7 @@ public class DialogTests extends ActivityInstrumentationTestCase2<DialogExampleA
         onView(withId(R.id.status_text)).check(matches(withText(R.string.ok)));
     }
 
+    @Test
     public void testClickCancelButton() {
         onView(withId(R.id.confirm_dialog_button)).perform(click());
 
